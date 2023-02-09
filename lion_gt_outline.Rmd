@@ -1,0 +1,128 @@
+---
+title: "roar, i like hunting as it yields nutritional outputs which loosely correlate with fitness as the phenotypic gambit deems it so"
+author: "Brendan J Barrett"
+date: "8/25/2022"
+output: pdf_document
+---
+<style type="text/css">
+  body{
+  font-size: 13pt;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview
+
+Lions like snacks, as it enables survival.
+We can make a cartoon envisioning 3 strategies to get snax, and three types of snax which are sentient critters. 
+They exist at some frequency.
+
+# Prey types
+## Big
+Big prey exist at a frequency of $p_B$.
+Eating one yields a benefit of $b_B$.
+
+## Small
+Small prey exist at a frequency of $1-p_B$.
+Eating one yields a benefit of $b_S$.
+
+We assume that $b_B > b_S$
+
+# Foraging types
+## Solo
+
+Solo hunters forage on both tiny and big prey.
+The exist at a frequency of $1-f_{BF}$.
+When a solo hunter goes after a big prey item, they have a success rate of $s_{SO,B}$.
+Hunting effort, regardless of success has a cost, $c_{SO,B}$. 
+We assert that $b_B > c_{SO,B}$.
+When a solo hunter goes after a tiny prey item, they have a success rate of $s_{SO,S}$.
+Hunting effort, regardless of success has a cost, $c_{SO,S}$.
+We assert that $b_{S} > c_{SO,S}$.
+
+The fitness function of a solo hunter is:
+\begin{equation}
+W(SO) = p_B( s_{SO,B} b_{B} - c_{SO,B}) + (1-p_B) (s_{SO,S} b_{S} - c_{SO,S}) +w_0
+\end{equation}
+
+
+## Brute force
+
+Brute force hunters forage on big and tiny prey.
+The exist at a frequency of $f_{BF}$.
+But we could also assume they hunt on only on big prey. 
+Brute force hunters are better at taking down big prey than solo hunters so we assert that $s_{BF,B} > s_{SO,B}$ ,and hunt in groups, and the benefit of the big prey is shared among the brute force hunters in the population.
+\begin{equation}
+W(BF) = f_{BF}p_B(s_{BF,B}b_{B} - c_{BF,B}) + f_{BF}(1-p_B)(s_{BF,S}b_{S} - c_{BF,S}) +w_0
+\end{equation}
+An alternative expression could be written where they can hunt large prey, but when the hunt small prey they cannot be shared:
+\begin{equation}
+W(BF) = f_{BF}p_B(s_{BF,B}b_{B} - c_{BF,B}) + (1-p_B)(s_{BF,S}b_{S} - c_{BF,S}) +w_0
+\end{equation}
+However, we will assert, for simplicity that brute force hunters only hunt large prey .
+\begin{equation}
+W(BF) =f_{BF}p_B(s_{BF,B}b_{B} - c_{BF,B}) + w_0
+\end{equation}
+
+## Role Play
+We ignore this for now as it will necessitate a new prey type, fleet mofos.
+ Tkae down large AND FLEETFOOTED PREY (COULD BE LARGE OR SMALL WITH DIFFERENT costs), share with other roleplayers [present at carcass can share or not, putt down the road]
+# Invasion Conditions
+## Solo invades brute force
+First, we will solve for when a solo hunter can invade a population of brute force hunters, or when $W(SO) > W(BF)$ and $f_{BF} \approx 1$.
+
+There are four(two really) conditions under which solo hunters can invade.
+
+###  Condition 1 is likely unrealistic based on assumptions
+Solo can invade the below case, but this likely violates our boundary conditions/assumptions since BF is always more succesful and less costly.
+If $b_B s_{SO,B}-c_{SO,B} = b_B s_{BF,B} - c_{BF,B}$ and $c_{SO,S} > b_S s_{SO,S}$, Solo can invade as long as there is some small prey in the population $$0 \leq pB < 1$$.
+
+### Condition 2
+When $c_{SO,S} > b_{S} s_{SO,S}$ and $b_B s_{BF,B} - c_{BF,B}  < b_B s_{SO,B} - c_{SOxB}$  solo can invade if: $$1 \geq p_B > \frac{b_S s_{SO,S} -c_{SO,S}}{(b_S s_{SO,S} - c_{SO,S}) + (b_B s_{SO,B} - c_{SO,B}) - (b_B s_{BF,B} -c_{BF,B})}$$.
+
+### Condition 3
+If $c_{SO,S} > b_S s_{SO,S}$ and$b_B s_{BF,B} - c_{BF,B}  > b_B s_{SO,B} - c_{SOxB}$, Solo can invade if: $$0 \leq p_B < \frac{b_S s_{SO,S} -c_{SO,S}}{(b_S s_{SO,S} - c_{SO,S}) + (b_B s_{SO,B} - c_{SO,B}) - (b_B s_{BF,B} -c_{BF,B})}$$.
+
+### Condition 4 is likely unrealistic based on assumptions
+If $c_{SO,S} > b_S s_{SO,S}$ and $b_B s_{BF,B} - c_{BF,B}  < b_B s_{SO,B} - c_{SOxB}$, then SO can invade across all values of $p_B$ where $$0 \leq p_B \leq 1$$.
+
+## Brute force invades solo
+Next, we will solve for when a brute force hunter can invade a population of solo hunters, or when $W(BF) > W(SO)$ and $f_{BF} \approx 0$.
+
+There are four  conditions under which brute force can invade.
+
+### Condition 1
+If $p_B>0$ and $b_{S}*s_{SO,S} = c_{SO,S}$ and $c_{SO,B} > b_{B}*s_{SO,B}$, brute force can invade.
+In human terms if the fitness gains from netting a small prey are zero, and the costs of solo hunting are greater than there benefits times success rate, brute force can invade as long as there is some amount of big prey in the population.
+
+### Condition 2
+If  $b_{S} s_{SO,S} > c_{SO,S}$ and $c_{SO,B} < b_{B} s_{SO,B}$, brute force can invade if: $$0 \leq p_B < \frac{b_S s_{SO,S} - c_{SO,S}}{b_S s_{SO,S} - c_{SO,S} + b_B s_{SO,B} - c_{SO,B}}$$.
+In human terms, brute force can invade when solo foragers have positive fitness gains on big and small prey, and $p_B$ is below a threshold. 
+This threshold increases when solo hunters have a hard time sucessfully catching big prey or it is very costly, but is mediated by the benefits and costs of catching small prey.
+
+### Condition 3
+Brute force can always invade, even when there are no big prey in the population and $b_{S} s_{SO,S} > c_{SO,S}$ and $c_{SO,B} > b_{B} s_{SO,B}$. So: $$0 \leq p_B \leq 1$$.
+This will lead to population collapse as solo predators have decreasing fitness and large predators cannot gain fitness beyond baseline. 
+
+### Condition 4
+Brute force can invade when solo hunters are shitty and there is sufficient big prey in the population, or $$\frac{b_S s_{SO,S} - c_{SO,S}}{b_S s_{SO,S} - c_{SO,S} + b_B s_{SO,B} - c_{SO,B}} < p_B \leq 1$$. 
+For this to be true $b_{S} s_{SO,S} < c_{SO,S}$ and $b_{B} s_{SO,B} < c_{SO,B}$. 
+My guess is that solo hunters will be extripated, but i don't have time to show this right meow.
+
+## Internal Equilibrium
+Then we will see if there is an ESS mixture. We can set $W(SO)=W(BF)$ and solve for either $\hat{f}_{BF}$ or $\hat{p}_B$.
+
+Huzzah! There is:
+$$\hat{f}_{BF}= \frac{p_B(b_B s_{SO,B} -c_{SO,B}) - (1-p)(b_S s_{SO,S} - c_{SO,S})}{p_B(b_B s_{BF,B} - c_{BF,B})}$$ 
+
+## Take home to put in grant
+We present the beginning of a game theoretical model that ask under what conditions solo and brute force hunters invade, and under what conditions they can coexist.
+It contrast to existing work, we examine how the relative frequencies of prey types (in this case big and small) on the landscape can affect the evolution and coexistence of foraging strategies.
+Preliminary models, which will be refined We show that there is a stable ESS under which brute force hunters and solo hunters can coexist, but the relative frequency of each strategy depends on the difference in success rates and costs between solo and brute force hunters. 
+
+INSERT GRAPH HERE OF INVASION DYNAMICS.
+
+Future research will add encounter rates, and an adition strategy, Role Play, and prey type (fleet), to see  which frequency conditions of prey types favor a mix of foraging strategy. This model will then be impletemneter into a discreet agent based model where we can add more realistic assumptions about resource distributions, prey and predator behavior, and prey population growth that are not analytically possible.
